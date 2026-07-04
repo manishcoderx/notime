@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MANISH — God of Mind</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:ital,wght@0,300;0,400;0,700;0,900;1,300&display=swap" rel="stylesheet" />
+  <link rel="shortcut icon" href="manish.jpg" type="image/x-icon">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg:     #070707;
+      --card:   #0d0d0d;
+      --line:   #181818;
+      --red:    #d91f1f;
+      --red-lo: rgba(217,31,31,0.10);
+      --red-glow: rgba(217,31,31,0.28);
+      --amber:  #e07a00;
+      --text:   #ebebeb;
+      --sub:    #3c3c3c;
+      --dim:    #171717;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    .wrap {
+      width: 100%;
+      max-width: 980px;
+      padding: 3.5rem 1.6rem 5.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+    }
+
+    /* ── NAME ── */
+    .header { text-align: center; }
+
+    .name {
+      font-size: clamp(3.4rem, 12vw, 8rem);
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      color: var(--red);
+      text-shadow:
+        0 0 40px var(--red-glow),
+        0 0 100px rgba(217,31,31,0.10);
+      line-height: 1;
+    }
+
+    .born-line {
+      font-size: 0.65rem;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--sub);
+      margin-top: 0.6rem;
+    }
+
+    /* ── HERO SECONDS ── */
+    .hero {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 2.4rem 1.8rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 50% 50%, rgba(217,31,31,0.05), transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.6rem;
+      letter-spacing: 0.45em;
+      text-transform: uppercase;
+      color: var(--sub);
+      margin-bottom: 1rem;
+    }
+
+    .hero-num {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(2.2rem, 8vw, 5.8rem);
+      font-weight: 700;
+      color: var(--red);
+      letter-spacing: 0.02em;
+      line-height: 1;
+      text-shadow: 0 0 28px var(--red-glow);
+    }
+
+    .hero-footer {
+      font-size: 0.62rem;
+      color: var(--sub);
+      letter-spacing: 0.2em;
+      margin-top: 0.9rem;
+    }
+
+    /* ── AGE GRID ── */
+    .age-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 0.65rem;
+    }
+
+    .tc {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1.1rem 0.4rem;
+      text-align: center;
+    }
+
+    .tc.alarm {
+      background: var(--red-lo);
+      border-color: rgba(217,31,31,0.22);
+    }
+
+    .tc-v {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(1.4rem, 4.5vw, 2.4rem);
+      font-weight: 700;
+      display: block;
+      color: var(--text);
+    }
+
+    .tc.alarm .tc-v { color: var(--red); }
+
+    .tc-l {
+      font-size: 0.52rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--sub);
+      margin-top: 0.35rem;
+    }
+
+    /* ── LIFE BAR ── */
+    .life {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.4rem 1.6rem;
+    }
+
+    .life-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.75rem;
+    }
+
+    .life-lbl {
+      font-size: 0.6rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--sub);
+    }
+
+    .life-pct {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.82rem;
+      color: var(--red);
+    }
+
+    .bar-track {
+      height: 6px;
+      background: var(--dim);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--red) 0%, var(--amber) 100%);
+      border-radius: 3px;
+      transition: width 1s linear;
+    }
+
+    .life-note {
+      font-size: 0.55rem;
+      color: #1f1f1f;
+      text-align: right;
+      margin-top: 0.5rem;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── STATS ── */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.65rem;
+    }
+
+    .sc {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 1.15rem 1rem;
+      text-align: center;
+    }
+
+    .sc.hot {
+      background: var(--red-lo);
+      border-color: rgba(217,31,31,0.18);
+    }
+
+    .sc-v {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(1rem, 3.2vw, 1.55rem);
+      font-weight: 700;
+    }
+
+    .sc.hot .sc-v { color: var(--red); }
+
+    .sc-l {
+      font-size: 0.52rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--sub);
+      margin-top: 0.38rem;
+    }
+
+    /* ── TODAY ── */
+    .today {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.4rem 1.6rem;
+    }
+
+    .today-eyebrow {
+      font-size: 0.6rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--sub);
+      margin-bottom: 1.1rem;
+    }
+
+    .today-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      text-align: center;
+    }
+
+    .td-v {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      font-weight: 700;
+      color: var(--amber);
+    }
+
+    .td-l {
+      font-size: 0.52rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sub);
+      margin-top: 0.35rem;
+    }
+
+    .today-divider {
+      width: 1px;
+      background: var(--line);
+      height: 100%;
+      align-self: stretch;
+    }
+
+    /* ── QUOTE ── */
+    .quote {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1.6rem 2rem;
+      text-align: center;
+      min-height: 82px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .quote-text {
+      font-size: clamp(0.72rem, 2vw, 0.87rem);
+      color: #575757;
+      font-style: italic;
+      line-height: 1.85;
+      transition: opacity 0.55s ease;
+    }
+
+    .quote-text.fade { opacity: 0; }
+
+    /* ── TICKER ── */
+    .ticker {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      background: #040404;
+      border-top: 1px solid #111;
+      padding: 0.65rem 0;
+      overflow: hidden;
+      z-index: 99;
+    }
+
+    .ticker-track {
+      display: flex;
+      gap: 0;
+      width: max-content;
+      animation: march 28s linear infinite;
+    }
+
+    @keyframes march {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .ti {
+      font-size: 0.62rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--red);
+      padding: 0 2.8rem;
+      white-space: nowrap;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      .age-grid  { grid-template-columns: repeat(3, 1fr); }
+      .stats     { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 380px) {
+      .age-grid  { grid-template-columns: repeat(2, 1fr); }
+      .stats     { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- NAME -->
+  <div class="header">
+    <div class="name">MANISH</div>
+    <div class="born-line">Born&nbsp;April&nbsp;12,&nbsp;2010&nbsp; · &nbsp;Every&nbsp;second&nbsp;counts&nbsp; · &nbsp;No&nbsp;excuses</div>
+  </div>
+
+  <!-- HERO: RAW SECONDS GONE -->
+  <div class="hero">
+    <div class="hero-eyebrow">Seconds of your life — erased forever</div>
+    <div class="hero-num" id="heroSec">0</div>
+    <div class="hero-footer">and rising. right now. this very breath.</div>
+  </div>
+
+  <!-- EXACT AGE BREAKDOWN -->
+  <div class="age-grid">
+    <div class="tc">
+      <span class="tc-v" id="y">0</span>
+      <div class="tc-l">Years</div>
+    </div>
+    <div class="tc">
+      <span class="tc-v" id="mo">0</span>
+      <div class="tc-l">Months</div>
+    </div>
+    <div class="tc">
+      <span class="tc-v" id="d">0</span>
+      <div class="tc-l">Days</div>
+    </div>
+    <div class="tc">
+      <span class="tc-v" id="h">0</span>
+      <div class="tc-l">Hours</div>
+    </div>
+    <div class="tc">
+      <span class="tc-v" id="mi">0</span>
+      <div class="tc-l">Mins</div>
+    </div>
+    <div class="tc alarm">
+      <span class="tc-v" id="s">0</span>
+      <div class="tc-l">Secs</div>
+    </div>
+  </div>
+
+  <!-- LIFE BAR -->
+  <div class="life">
+    <div class="life-top">
+      <span class="life-lbl">Life consumed &nbsp;—&nbsp; 40&nbsp;yr&nbsp;expectancy</span>
+      <span class="life-pct" id="lifePct">0.000000%</span>
+    </div>
+    <div class="bar-track">
+      <div class="bar-fill" id="barFill" style="width:0%"></div>
+    </div>
+    <div class="life-note">Each pixel is time you will never get back.</div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats">
+    <div class="sc">
+      <div class="sc-v" id="totDays">0</div>
+      <div class="sc-l">Days alive</div>
+    </div>
+    <div class="sc">
+      <div class="sc-v" id="totHrs">0</div>
+      <div class="sc-l">Hours alive</div>
+    </div>
+    <div class="sc hot">
+      <div class="sc-v" id="totMins">0</div>
+      <div class="sc-l">Minutes — gone</div>
+    </div>
+  </div>
+
+  <!-- TODAY -->
+  <div class="today">
+    <div class="today-eyebrow">⚡ Today's clock</div>
+    <div class="today-row">
+      <div>
+        <div class="td-v" id="todayUsed">0</div>
+        <div class="td-l">Seconds of today already used</div>
+      </div>
+      <div>
+        <div class="td-v" id="todayLeft">0</div>
+        <div class="td-l">Minutes remaining in today</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUOTE -->
+  <div class="quote">
+    <div class="quote-text" id="quoteEl"></div>
+  </div>
+
+</div>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track" id="tickerEl"></div>
+</div>
+
+<script>
+  /* ── CONFIG ── */
+  const BIRTH = new Date('2010-04-12T00:00:00');
+  const LIFE  = 40; // years
+
+  /* ── TICKER ── */
+  const MSGS = [
+    '⚡ MANISH — WORK NOW',
+    '⚡ 16 YEARS GONE — WHAT DID YOU BUILD?',
+    '⚡ YOUR CLOCK NEVER PAUSES',
+    '⚡ NO REPLAYS. NO REWINDS.',
+    '⚡ HUNGER · GRIND · REPEAT',
+    '⚡ STOP SCROLLING — START WORKING',
+    '⚡ YOUR FUTURE SELF IS WATCHING',
+    '⚡ EVERY SECOND IS A CHOICE',
+    '⚡ THE WORLD DOESN\'T WAIT FOR ANYONE',
+    '⚡ BUILT SECOND BY SECOND — OR LOST SECOND BY SECOND',
+  ];
+  const doubled = [...MSGS, ...MSGS]
+    .map(m => `<span class="ti">${m}</span>`).join('');
+  document.getElementById('tickerEl').innerHTML = doubled;
+
+  /* ── QUOTES ── */
+  const QUOTES = [
+    "You are 16. Most people your age are just drifting. You're reading this. Don't drift.",
+    "Every second you're idle, someone hungrier is using that same second to build.",
+    "Your family didn't grind through hard times so you could waste yours.",
+    "The person you'll be in 5 years is being written right now — by you, or by distraction.",
+    "Bill Gates was coding through the night at your age. What are you doing with your nights?",
+    "Average is not a destination — it's what happens when you stop making choices.",
+    "Hunger is your edge. Comfortable people don't know what it feels like. Protect that hunger.",
+    "The clock doesn't care about your mood, your excuses, or your plans. It only cares about your actions.",
+    "One day you'll want to go back to these years and use them better. That day is not an option. Today is.",
+    "Success is built second by second. So is regret. You're choosing which one right now.",
+    "Your discipline today is writing the story your future self will either thank you for — or mourn.",
+    "Time is the only currency that cannot be earned, borrowed, or stolen back. Spend it like it.",
+  ];
+
+  let qIdx = 0;
+  const qEl = document.getElementById('quoteEl');
+
+  function showQuote() {
+    qEl.classList.add('fade');
+    setTimeout(() => {
+      qEl.textContent = `"${QUOTES[qIdx]}"`;
+      qEl.classList.remove('fade');
+      qIdx = (qIdx + 1) % QUOTES.length;
+    }, 550);
+  }
+  showQuote();
+  setInterval(showQuote, 8000);
+
+  /* ── HELPERS ── */
+  const pad = n => String(Math.floor(n)).padStart(2, '0');
+  const fmt = n => Math.floor(n).toLocaleString('en-IN');   // Indian number format for Manish
+
+  function getAge(now) {
+    let yy = now.getFullYear() - BIRTH.getFullYear();
+    let mm = now.getMonth()    - BIRTH.getMonth();
+    let dd = now.getDate()     - BIRTH.getDate();
+    let hh = now.getHours()    - BIRTH.getHours();
+    let mi = now.getMinutes()  - BIRTH.getMinutes();
+    let ss = now.getSeconds()  - BIRTH.getSeconds();
+
+    if (ss < 0) { ss += 60; mi--; }
+    if (mi < 0) { mi += 60; hh--; }
+    if (hh < 0) { hh += 24; dd--; }
+    if (dd < 0) {
+      mm--;
+      dd += new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+    }
+    if (mm < 0) { mm += 12; yy--; }
+
+    return { yy, mm, dd, hh, mi, ss };
+  }
+
+  /* ── MAIN LOOP ── */
+  function tick() {
+    const now  = new Date();
+    const age  = getAge(now);
+
+    /* Exact age */
+    document.getElementById('y').textContent  = age.yy;
+    document.getElementById('mo').textContent = pad(age.mm);
+    document.getElementById('d').textContent  = pad(age.dd);
+    document.getElementById('h').textContent  = pad(age.hh);
+    document.getElementById('mi').textContent = pad(age.mi);
+    document.getElementById('s').textContent  = pad(age.ss);
+
+    /* Totals */
+    const msLived  = now - BIRTH;
+    const secLived = Math.floor(msLived / 1000);
+    const minLived = Math.floor(secLived / 60);
+    const hrLived  = Math.floor(minLived / 60);
+    const dayLived = Math.floor(hrLived  / 24);
+
+    document.getElementById('heroSec').textContent  = fmt(secLived);
+    document.getElementById('totDays').textContent  = fmt(dayLived);
+    document.getElementById('totHrs').textContent   = fmt(hrLived);
+    document.getElementById('totMins').textContent  = fmt(minLived);
+
+    /* Life bar */
+    const lifeMs = LIFE * 365.25 * 24 * 3600 * 1000;
+    const pct    = (msLived / lifeMs) * 100;
+    document.getElementById('lifePct').textContent      = pct.toFixed(6) + '%';
+    document.getElementById('barFill').style.width      = pct + '%';
+
+    /* Today */
+    const midnight  = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    const secToday  = Math.floor((now - midnight) / 1000);
+    const minLeft   = Math.floor((86400 - secToday) / 60);
+
+    document.getElementById('todayUsed').textContent = fmt(secToday);
+    document.getElementById('todayLeft').textContent = fmt(minLeft);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>
